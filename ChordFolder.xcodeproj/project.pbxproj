@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -12,6 +12,7 @@
 		723859CD24C9439D00CBF600 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 723859CC24C9439D00CBF600 /* Assets.xcassets */; };
 		723859D024C9439D00CBF600 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 723859CF24C9439D00CBF600 /* Preview Assets.xcassets */; };
 		723859D324C9439D00CBF600 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 723859D124C9439D00CBF600 /* Main.storyboard */; };
+		723859DD24C94A2E00CBF600 /* HotKey in Frameworks */ = {isa = PBXBuildFile; productRef = 723859DC24C94A2E00CBF600 /* HotKey */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				723859DD24C94A2E00CBF600 /* HotKey in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -90,6 +92,9 @@
 			dependencies = (
 			);
 			name = ChordFolder;
+			packageProductDependencies = (
+				723859DC24C94A2E00CBF600 /* HotKey */,
+			);
 			productName = ChordFolder;
 			productReference = 723859C524C9439800CBF600 /* ChordFolder.app */;
 			productType = "com.apple.product-type.application";
@@ -118,6 +123,9 @@
 				Base,
 			);
 			mainGroup = 723859BC24C9439800CBF600;
+			packageReferences = (
+				723859DB24C94A2E00CBF600 /* XCRemoteSwiftPackageReference "HotKey" */,
+			);
 			productRefGroup = 723859C624C9439800CBF600 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -341,6 +349,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		723859DB24C94A2E00CBF600 /* XCRemoteSwiftPackageReference "HotKey" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/soffes/HotKey";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.1.3;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		723859DC24C94A2E00CBF600 /* HotKey */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 723859DB24C94A2E00CBF600 /* XCRemoteSwiftPackageReference "HotKey" */;
+			productName = HotKey;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 723859BD24C9439800CBF600 /* Project object */;
 }
