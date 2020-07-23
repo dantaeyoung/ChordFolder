@@ -11,8 +11,32 @@ import SwiftUI
 
 
 struct ContentView: View {
+    
+    @ObservedObject var userSettings = UserSettings()
+    
     var body: some View {
+        
         VStack {
+            HStack {
+                Text("button me")
+                
+                Button("choose dir 1") {
+                    let chosenD = chooseDir()
+                    print(chosenD)
+                    UserDefaults.standard.set(chosenD, forKey: "dir1")
+                }
+            }
+            /*List {
+                ForEach(userSettings.directoryShortcuts.indices, id: \.self) { index in
+                    Text(self.userSettings.directoryShortcuts[index].dirpath)
+                    Button("choose dir") {
+                        let chosenD = chooseDir()
+                        print(chosenD)
+                        UserDefaults.standard.set(chosenD, forKey: "dir1")
+                    }
+                }
+            }*/
+            
             Text("Hello, World!!!")
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             
@@ -22,11 +46,7 @@ struct ContentView: View {
                 Text("button me")
             }
             TextField(/*@START_MENU_TOKEN@*/"Placeholder"/*@END_MENU_TOKEN@*/, text: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Value@*/.constant("")/*@END_MENU_TOKEN@*/)
-            Button("choose dir") {
-                let chosend = chooseDir()
-                print(chosend)
-                
-            }
+            
         }
     }
 }
@@ -41,16 +61,16 @@ struct ContentView_Previews: PreviewProvider {
 
 func chooseDir() -> String {
     let dialog = NSOpenPanel();
-
+    
     dialog.title                   = "Choose a dir";
     dialog.showsResizeIndicator    = true;
     dialog.allowsMultipleSelection = false;
     dialog.canChooseFiles = false;
     dialog.canChooseDirectories = true;
-
+    
     if (dialog.runModal() ==  NSApplication.ModalResponse.OK) {
         let result = dialog.url // Pathname of the file
-
+        
         if (result != nil) {
             let path: String = result!.path
             return path
