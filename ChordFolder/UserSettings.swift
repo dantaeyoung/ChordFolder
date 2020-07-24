@@ -20,6 +20,8 @@ class UserSettings: ObservableObject {
     }
     
     
+    let homeDirURL = FileManager.default.homeDirectoryForCurrentUser
+    
     init() {
         self.username = UserDefaults.standard.object(forKey: "username") as? String ?? ""
         

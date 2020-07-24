@@ -5,7 +5,8 @@ import HotKey
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
-    
+    var userSettings = UserSettings()
+
     var popover: NSPopover!
     var statusBarItem: NSStatusItem!
     
@@ -31,15 +32,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         hotKey1 = HotKey(key: .f1, modifiers: [])
         hotKey1!.keyDownHandler = {
-            self.openFolder(keyn: 1)
+            self.openFolder(keyn: 0)
         }
         hotKey2 = HotKey(key: .f2, modifiers: [])
         hotKey2!.keyDownHandler = {
-            self.openFolder(keyn: 2)
+            self.openFolder(keyn: 1)
         }
         hotKey3 = HotKey(key: .f3, modifiers: [])
         hotKey3!.keyDownHandler = {
-            self.openFolder(keyn: 3)
+            self.openFolder(keyn: 2)
         }
         
     }
@@ -55,7 +56,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
     
-    func openFolder(keyn: integer_t) {
+    func openFolder(keyn: Int) {
+        
+
+        
         print(keyn.description + "Pressed at \(Date())")
         print(NSWorkspace.shared.frontmostApplication)
         
@@ -127,10 +131,18 @@ end tell
 
 """
         
+        let ap4 = """
+        tell application "Safari" to search the web for "macOS"
+        """
         
-        let res = runAppleScript(myAppleScript: ap3)
+        //changeOpenDialogAppleScript(dir: "/Users/provolot")
+        
+        let dir = self.userSettings.directoryShortcuts[keyn]
+        print(openFinderAppleScript(dir: dir))
+        let res = runAppleScript(myAppleScript: openFinderAppleScript(dir: dir))
         print("result:::: ")
         print(res)
+
         
     }
     
@@ -139,18 +151,18 @@ end tell
     }
     
     
-    func runAppleScript(myAppleScript: String) -> Bool {
+    func runAppleScript(myAppleScript: String) -> String {
         var error: NSDictionary?
         if let scriptObject = NSAppleScript(source: myAppleScript) {
             if let output: NSAppleEventDescriptor = scriptObject.executeAndReturnError(&error) {
                 print(output.stringValue)
-                return true
+                return output.stringValue ?? ""
             } else if (error != nil) {
                 print("error: \(error)")
-                return false
+                return "error: \(error)"
             }
         }
-        return true
+        return ""
     }
     
     public var hotKey1: HotKey?
@@ -164,4 +176,16 @@ struct AppDelegate_Previews: PreviewProvider {
     static var previews: some View {
         /*@START_MENU_TOKEN@*/Text("Hello, World!")/*@END_MENU_TOKEN@*/
     }
+}
+
+func openFinderAppleScript(dir: String) -> String {
+    return """
+    set targetFolder to POSIX file \"\(dir)\"
+
+    tell application "Finder"
+        open targetFolder
+        activate
+    end tell
+
+    """
 }
