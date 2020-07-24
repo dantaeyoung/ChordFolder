@@ -1,13 +1,6 @@
 import Foundation
 import Combine
-
-struct DirectoryShortcut: Codable {
-    var id: String
-    var dirpath: String
-    var shortcut: String
-}
-
-
+/* DIRECTORY SHORTCUT WITH LIST */
 
 class UserSettings: ObservableObject {
     @Published var username: String {
@@ -18,7 +11,7 @@ class UserSettings: ObservableObject {
     
     @Published var score = 0
     
-    @Published var directoryShortcuts: [DirectoryShortcut]
+    @Published var directoryShortcuts: [String]
         {
         didSet {
             print("didset")
@@ -30,16 +23,7 @@ class UserSettings: ObservableObject {
     init() {
         self.username = UserDefaults.standard.object(forKey: "username") as? String ?? ""
         
-        if let data = UserDefaults.standard.object(forKey: "directoryShortcuts") as? Data,
-            let ds = try? JSONDecoder().decode(DirectoryShortcut.self, from: data) {
-            self.directoryShortcuts = ds
-        } else {
-            self.directoryShortcuts = [
-                DirectoryShortcut(id: "0", dirpath: "/Users/" , shortcut: ""),
-                DirectoryShortcut(id: "1", dirpath: "/Users/", shortcut: ""),
-                DirectoryShortcut(id: "2", dirpath: "/Users/", shortcut: "")
-            ]
-        }
+        self.directoryShortcuts = UserDefaults.standard.object(forKey: "directoryShortcuts") as? [String] ?? ["", "", ""]
         
     }
     /*

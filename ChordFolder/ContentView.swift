@@ -45,11 +45,11 @@ struct ContentView: View {
             List {
                 ForEach(self.userSettings.directoryShortcuts.indices, id: \.self) { index in
                     HStack {
-                        Text(self.userSettings.directoryShortcuts[index].dirpath)
+                        Text(self.userSettings.directoryShortcuts[index])
                         Button("choose dir \(index)") {
                             let chosenD = chooseDir()
                             print(chosenD)
-                            self.userSettings.directoryShortcuts[index].dirpath = chosenD
+                            self.userSettings.directoryShortcuts[index] = chosenD
                             //UserDefaults.standard.set(chosenD, forKey: "dir1")
                         }
 
