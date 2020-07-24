@@ -14,6 +14,7 @@
 		723859D324C9439D00CBF600 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 723859D124C9439D00CBF600 /* Main.storyboard */; };
 		723859DD24C94A2E00CBF600 /* HotKey in Frameworks */ = {isa = PBXBuildFile; productRef = 723859DC24C94A2E00CBF600 /* HotKey */; };
 		723859E124C9637D00CBF600 /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 723859E024C9637D00CBF600 /* UserSettings.swift */; };
+		724C7A5924CA601D0033439F /* TextView in Frameworks */ = {isa = PBXBuildFile; productRef = 724C7A5824CA601D0033439F /* TextView */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +34,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				724C7A5924CA601D0033439F /* TextView in Frameworks */,
 				723859DD24C94A2E00CBF600 /* HotKey in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -97,6 +99,7 @@
 			name = ChordFolder;
 			packageProductDependencies = (
 				723859DC24C94A2E00CBF600 /* HotKey */,
+				724C7A5824CA601D0033439F /* TextView */,
 			);
 			productName = ChordFolder;
 			productReference = 723859C524C9439800CBF600 /* ChordFolder.app */;
@@ -128,6 +131,7 @@
 			mainGroup = 723859BC24C9439800CBF600;
 			packageReferences = (
 				723859DB24C94A2E00CBF600 /* XCRemoteSwiftPackageReference "HotKey" */,
+				724C7A5724CA601D0033439F /* XCRemoteSwiftPackageReference "TextView" */,
 			);
 			productRefGroup = 723859C624C9439800CBF600 /* Products */;
 			projectDirPath = "";
@@ -297,6 +301,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"ChordFolder/Preview Content\"";
+				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = ChordFolder/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -318,6 +323,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"ChordFolder/Preview Content\"";
+				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = ChordFolder/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -363,6 +369,14 @@
 				minimumVersion = 0.1.3;
 			};
 		};
+		724C7A5724CA601D0033439F /* XCRemoteSwiftPackageReference "TextView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kenmueller/TextView";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.4.7;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -370,6 +384,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 723859DB24C94A2E00CBF600 /* XCRemoteSwiftPackageReference "HotKey" */;
 			productName = HotKey;
+		};
+		724C7A5824CA601D0033439F /* TextView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 724C7A5724CA601D0033439F /* XCRemoteSwiftPackageReference "TextView" */;
+			productName = TextView;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

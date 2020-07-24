@@ -9,21 +9,26 @@
 import SwiftUI
 
 
-
 struct ContentView: View {
     
     @ObservedObject var userSettings = UserSettings()
+    @State var text = ""
+    @State var isEditing = false
+    
     
     var body: some View {
-        
+         
         VStack {
             HStack {
                 Text("button me")
                 
+                Text(self.userSettings.username)
+      
                 Button("choose dir 1") {
                     let chosenD = chooseDir()
                     print(chosenD)
-                    UserDefaults.standard.set(chosenD, forKey: "dir1")
+                    self.userSettings.username = chosenD
+                    //UserDefaults.standard.set(chosenD, forKey: "dir1")
                 }
             }
             /*List {
@@ -37,6 +42,22 @@ struct ContentView: View {
                 }
             }*/
             
+            List {
+                ForEach(self.userSettings.directoryShortcuts.indices, id: \.self) { index in
+                    HStack {
+                        Text(self.userSettings.directoryShortcuts[index].dirpath)
+                        Button("choose dir \(index)") {
+                            let chosenD = chooseDir()
+                            print(chosenD)
+                            self.userSettings.directoryShortcuts[index].dirpath = chosenD
+                            //UserDefaults.standard.set(chosenD, forKey: "dir1")
+                        }
+
+                    }
+                }
+            }
+            
+            
             Text("Hello, World!!!")
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             
@@ -46,6 +67,10 @@ struct ContentView: View {
                 Text("button me")
             }
             TextField(/*@START_MENU_TOKEN@*/"Placeholder"/*@END_MENU_TOKEN@*/, text: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Value@*/.constant("")/*@END_MENU_TOKEN@*/)
+            
+            Button("Quit") {
+                NSApplication.shared.terminate(self)
+            }
             
         }
     }
@@ -98,3 +123,4 @@ func buttonPress() -> Bool {
     }
     return true
 }
+

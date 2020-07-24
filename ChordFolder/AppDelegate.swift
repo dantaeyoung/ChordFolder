@@ -95,8 +95,42 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 end tell
 """
         
+        let ap2 = """
+     
+
+set windowTitle to ""
+tell application "System Events"
+    set frontApp to first application process whose frontmost is true
+    set frontAppName to name of frontApp
+
+end tell
+
+
+
+return {frontAppName}
+"""
         
-        runAppleScript(myAppleScript: ap)
+        let ap3 = """
+
+set windowTitle to ""
+display alert "hoooo"
+tell application "System Events"
+    set frontApp to the first application process whose frontmost is true
+    set frontAppName to name of frontApp
+    --set frontWindow to the first window of application process frontAppName
+    set frontWindowProps to properties of frontApp
+    display alert frontWindowProps
+
+    
+end tell
+
+
+"""
+        
+        
+        let res = runAppleScript(myAppleScript: ap3)
+        print("result:::: ")
+        print(res)
         
     }
     
