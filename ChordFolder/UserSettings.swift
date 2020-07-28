@@ -3,6 +3,8 @@ import Combine
 /* DIRECTORY SHORTCUT WITH LIST */
 
 class UserSettings: ObservableObject {
+    
+    
     @Published var username: String {
         didSet {
             UserDefaults.standard.set(username, forKey: "username")
