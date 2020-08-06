@@ -10,6 +10,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var popover: NSPopover!
     var statusBarItem: NSStatusItem!
     
+    public var hotKey1: HotKey?
+    public var hotKey2: HotKey?
+    public var hotKey3: HotKey?
+    
+    
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Create the SwiftUI view that provides the window contents.
         let contentView = ContentView()
@@ -29,8 +34,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             button.action = #selector(togglePopover(_:))
         }
         
-        
-        
+    
 
         
         hotKey1 = HotKey(key: .f1, modifiers: [])
@@ -41,7 +45,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         hotKey2 = HotKey(key: .f2, modifiers: [])
         hotKey2!.keyDownHandler = {
             let dir = self.userSettings.directoryShortcuts[1]
-            FolderScripts.openFolder(dir: dir)
+            FolderScripts.toggleDarkMode()
+            //FolderScripts.openFolder(dir: dir)
         }
         hotKey3 = HotKey(key: .f3, modifiers: [])
         hotKey3!.keyDownHandler = {
@@ -62,10 +67,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
     
-    
-    public var hotKey1: HotKey?
-    public var hotKey2: HotKey?
-    public var hotKey3: HotKey?
     
     
 }

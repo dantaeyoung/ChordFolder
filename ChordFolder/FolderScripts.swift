@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import Cocoa
+
 
 class FolderScripts {
     
@@ -47,22 +49,7 @@ end tell
 return {frontAppName}
 """
         
-        let ap3 = """
-
-set windowTitle to ""
-display alert "hoooo"
-tell application "System Events"
-    set frontApp to the first application process whose frontmost is true
-    set frontAppName to name of frontApp
-    --set frontWindow to the first window of application process frontAppName
-    set frontWindowProps to properties of frontApp
-    display alert frontWindowProps
-
-    
-end tell
-
-
-"""
+        
         
         let ap4 = """
         tell application "Safari" to search the web for "macOS"
@@ -70,17 +57,33 @@ end tell
     
     class func openFolder(dir: String) {
         
+        let ap3 = """
+
+        set windowTitle to ""
+        display alert "hoooo"
+        tell application "System Events"
+            set frontApp to the first application process whose frontmost is true
+            set frontAppName to name of frontApp
+            --set frontWindow to the first window of application process frontAppName
+            set frontWindowProps to properties of frontApp
+            display alert frontWindowProps
+
+            
+        end tell
+
+
+        """
         
+        let ap4 = """
+        tell application "Finder"
+            set _b to bounds of window of desktop
+        end tell
+        """
         
         print(dir + "Pressed at \(Date())")
         //print(NSWorkspace.shared.frontmostApplication)
         
-    
-        
-        //changeOpenDialogAppleScript(dir: "/Users/provolot")
-        
-        print(openFinderAppleScript(dir: dir))
-        let res = runAppleScript(myAppleScript: openFinderAppleScript(dir: dir))
+        let res = runAppleScript(myAppleScript: ap4)
         print("result:::: ")
         print(res)
         
@@ -118,6 +121,107 @@ end tell
         end tell
         
         """
+    }
+    
+    /* everything below this is from NightFall */
+    
+    struct AppleScriptError : Error {
+        let errorDict: NSDictionary
+        let errorNumber: Int?
+        let errorMessage: String?
+        
+        init(_ errorInfo: NSDictionary) {
+            self.errorDict = errorInfo
+            self.errorNumber = errorDict["NSAppleScriptErrorNumber"] as? Int
+            self.errorMessage = errorDict["NSAppleScriptErrorMessage"] as? String
+        }
+    }
+    
+    
+
+    class func checkSystemEventsPermission(canPrompt: Bool) -> Bool {
+        let bundleID = "com.apple.systemevents"
+        
+        // First, make sure the System Events application is running...
+        
+        if NSRunningApplication.runningApplications(withBundleIdentifier: bundleID).isEmpty {
+            NSWorkspace.shared.launchApplication(withBundleIdentifier: bundleID, options: .withoutActivation,
+                additionalEventParamDescriptor: nil, launchIdentifier: nil)
+        }
+        
+        // ...then check the permission
+        
+        let target = NSAppleEventDescriptor(bundleIdentifier: bundleID)
+        let status = AEDeterminePermissionToAutomateTarget(target.aeDesc, typeWildCard, typeWildCard, canPrompt)
+                
+        return status == noErr
+    }
+
+    enum SystemAppearance: String {
+        case light = "no"
+        case dark = "yes"
+        case toggle = "not dark mode"
+    }
+
+    class func setSystemAppearance(to appearance: SystemAppearance) throws {
+        let scriptSource = """
+            tell application "System Events"
+                tell appearance preferences
+                    set dark mode to \(appearance.rawValue)
+                end tell
+            end tell
+            """
+        
+        // This forced unwrap should be safe, as I can't find any situation where it returns nil
+        let script = NSAppleScript(source: scriptSource)!
+        
+        var error: NSDictionary?
+        script.executeAndReturnError(&error)
+        
+        if let error = error {
+            throw AppleScriptError(error)
+        }
+    }
+    
+    
+    /// Switches between light mode and dark mode.
+    ///
+    /// This function includes behavior not in `setSystemAppearance(to:)`, such as displaying the fade
+    /// animation and displaying errors in alerts.
+    
+    class func toggleDarkMode() {
+        if !checkSystemEventsPermission(canPrompt: true) {
+            let alert = NSAlert()
+            alert.messageText = "System Events are not enabled for ChordFolder."
+            alert.informativeText = "ChordFolder needs access to System Events to enable and disable dark mode. Enable \"Automation\" for ChordFolder in System Preferences to use ChordFolder."
+            alert.addButton(withTitle: "OK")
+            alert.addButton(withTitle: "Open System Preferences")
+            
+            if alert.runModal() == .alertSecondButtonReturn {
+                // Opens the Automation section in System Preferences
+                if let url = URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_Automation") {
+                    NSWorkspace.shared.open(url)
+                }
+            }
+            
+            return
+        }
+                
+        do {
+            try setSystemAppearance(to: .toggle)
+        } catch {
+            let alert = NSAlert()
+            if let error = error as? AppleScriptError {
+                alert.messageText = "An AppleScript error ocurred."
+                if let errorNumber = error.errorNumber {
+                    alert.informativeText += "Error \(errorNumber)\n"
+                }
+                if let errorMessage = error.errorMessage {
+                    alert.informativeText += "\"\(errorMessage)\""
+                }
+            }
+            alert.runModal()
+        }
     }
     
 }
