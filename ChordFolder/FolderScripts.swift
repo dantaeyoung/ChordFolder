@@ -60,14 +60,12 @@ return {frontAppName}
         let ap3 = """
 
         set windowTitle to ""
-        display alert "hoooo"
         tell application "System Events"
             set frontApp to the first application process whose frontmost is true
             set frontAppName to name of frontApp
             --set frontWindow to the first window of application process frontAppName
             set frontWindowProps to properties of frontApp
             display alert frontWindowProps
-
             
         end tell
 
@@ -83,7 +81,7 @@ return {frontAppName}
         print(dir + "Pressed at \(Date())")
         //print(NSWorkspace.shared.frontmostApplication)
         
-        let res = runAppleScript(myAppleScript: ap4)
+        let res = runAppleScript(myAppleScript: ap3)
         print("result:::: ")
         print(res)
         
